@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل حل اسئلة كتاب الواجب - الصف السابع</title>
+    
+    <!-- Tailwind CDN (النسخة الموصى بها للاختبار السريع) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome (أيقونات) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" xintegrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+   <!-- خط Cairo من جوجل -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS مخصص للتطبيق */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f0f4f8; /* لون خلفية هادئ */
+        }
+        .eng-text {
+            direction: ltr;
+            text-align: left;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .pop-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        .table-solution, .verb-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .table-solution th, .verb-table th {
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .table-solution td, .verb-table td {
+            background-color: #eff6ff; /* Blue-50 */
+            border: 1px solid #bfdbfe; /* Blue-200 */
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .answer-box {
+            background-color: #f9fafb;
+            padding: 1rem;
+            border-right: 4px solid #3b82f6;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        .speak-btn {
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+        .speak-btn:hover {
+            color: #1e40af; /* Blue-800 */
+        }
+        .match-list li {
+            padding: 0.5rem;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .match-list li:nth-child(even) {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- إطار الكتاب -->
+    <div id="book-card" class="max-w-3xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden border-8 border-yellow-400 flex flex-col transition-all duration-500 relative" style="min-height: 700px;">
+        
+        <!-- رأس الصفحة -->
+        <div class="bg-yellow-400 p-4 flex justify-between items-center text-yellow-900 z-10">
+            <h1 class="text-xl md:text-2xl font-bold flex items-center gap-2">
+                <i class="fas fa-book-open-reader text-yellow-800"></i>دليل الإجابات النموذجية للصف السابع
+            </h1>
+            <div class="bg-white/30 px-4 py-1 rounded-full text-sm font-bold">
+                <span id="page-num">1</span> / <span id="total-pages">22</span>
+            </div>
+        </div>
+
+        <!-- منطقة المحتوى (متغيرة) -->
+        <div id="book-content" class="flex-grow p-6 flex flex-col items-center justify-start text-center w-full relative overflow-y-auto">
+            <!-- سيتم ملء المحتوى هنا بواسطة JS -->
+        </div>
+
+        <!-- أزرار التحكم -->
+        <div class="p-6 bg-white border-t border-gray-100 flex justify-between items-center mt-auto" id="controls">
+            <button onclick="prevPage()" id="btn-prev" 
+                class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 px-6 rounded-full shadow transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                <i class="fas fa-arrow-right"></i> السابق
+            </button>
+            
+            <button onclick="nextPage()" id="btn-next" 
+                class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                التالي <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </div>
+
+<script>
+
+// ===================================================================================
+// 1. بيانات الكتاب (دليل حلول كتاب النشاط)
+// ===================================================================================
+const pages = [
+    // 0. Cover Page
+    {
+    "type": "cover",
+    "title": "ENGLISH FOR LIBYA",
+    "subtitle": "Preparatory 1 Workbook - Answer Key (Grade 7)",
+    "icon": "fa-key",
+    "color": "text-blue-700",
+    "bgColor": "bg-gray-50",
+    "authorName": "جمعة على عبد الرحمن", 
+    "whatsapp": "0911313949",
+    "supervisor": "مراجعة وإشراف: الابله خديجة",
+    "supervisorPhone": "0923546770"
+    },
+    
+    // 1. Introduction
+    {"type": "introduction", "title": "Welcome to the Answer Key!", "arabicTitle": "مرحباً في دليل الحلول التفاعلي!", "bgColor": "bg-teal-50" },
+
+    // 2. Index - (تم تحديث الـ pageIndex)
+    {"type": "index", "title": "Unit Contents", "arabicTitle": "فهرس الوحدات", "bgColor": "bg-pink-50" },
+
+    // --- UNIT 1: HOBBIES AND ROUTINES --- (Start Index: 3)
+    { "type": "section", "title": "Unit 1: Hobbies and Routines", "arabicTitle": "الوحدة الأولى: الهوايات والروتين (حلول مكتملة)", "bgColor": "bg-indigo-100", "icon": "fa-clock" },
+    
+    // 4. Page 1 (Exercise 1.1 & 1.2) 
+    {
+        "type": "exercise",
+        "unit": "Unit 1.1 & 1.2 (Pages 5-6)",
+        "title": "Fill the gaps / Match the words",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.1 A: Fill the gaps",
+                "question": "املأ الفراغات بالكلمات المناسبة (My, Her, I, Their, His...)",
+                "answers": [
+                    {"eng": "1. My name is Hasan. I am from Tripoli.", "arb": "اسمي حسن. أنا من طرابلس."},
+                    {"eng": "2. That is my sister. Her name is Nisrin. She is five.", "arb": "هذه أختي. اسمها نسرين. هي تبلغ الخامسة."},
+                    {"eng": "3. This is our house. It's small but we like it.", "arb": "هذا منزلنا. إنه صغير ولكننا نحبه."},
+                    {"eng": "4. Ali is eleven and his brother is nine. Their house is big.", "arb": "علي يبلغ الحادية عشرة وأخوه تسعة. منزلهم كبير."}
+                ]
+            },
+            {
+                "name": "Exercise 1.1 B: Reorder the words to make questions. Then write the answers.",
+                "question": "أعد ترتيب الكلمات لتكوين أسئلة ثم اكتب الإجابات (نموذجية).",
+                "answers": [
+                    {"eng": "1. What is your name? My name is Ali.", "arb": "ما هو اسمك؟ اسمي علي."},
+                    {"eng": "2. Where do you live? I live in Benghazi.", "arb": "أين تعيش؟ أنا أعيش في بنغازي."},
+                    {"eng": "3. How old are you? I am twelve years old.", "arb": "كم عمرك؟ عمري اثنا عشر عاماً."}
+                ]
+            },
+            {
+                "name": "Exercise 1.2 A: Match the words to the numbers.",
+                "question": "طابق الكلمات بالأرقام:",
+                "answers": [
+                    {"eng": "1. one, 2. two, 3. three, 4. four, 5. five, 6. six, 7. seven, 8. eight, 9. nine, 10. ten, 11. eleven, 12. twelve", "arb": "الحل هو الترتيب الصحيح للأرقام من 1 إلى 12."}
+                ]
+            }
+        ]
+    },
+
+    // 5. Page 2 (Exercise 1.3 - Page 6) 
+    {
+        "type": "exercise",
+        "unit": "Unit 1.3 (Page 6)",
+        "title": "Write the missing vowels / Answer the questions",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.3 A: Write the missing vowels and match.",
+                "question": "اكتب حروف العلة المفقودة ثم طابقها بالصور:",
+                "answers": [
+                    {"eng": "go shopping", "arb": "الذهاب للتسوق"},
+                    {"eng": "do homework", "arb": "عمل الواجبات المنزلية"},
+                    {"eng": "cycle", "arb": "ركوب الدراجة"},
+                    {"eng": "watch TV", "arb": "مشاهدة التلفزيون"},
+                    {"eng": "play table tennis", "arb": "لعب تنس الطاولة"},
+                    {"eng": "read", "arb": "القراءة"}
+                ]
+            },
+            {
+                "name": "Exercise 1.3 B: Answer the questions. Write sentences. (Sample Answers)",
+                "question": "أجب على الأسئلة واكتب جمل (إجابات نموذجية).",
+                "answers": [
+                    {"eng": "1. What do you do in the morning? I have breakfast and go to school.", "arb": "ماذا تفعل في الصباح؟ أتناول الفطور وأذهب للمدرسة."},
+                    {"eng": "2. What do you do in the afternoon? I do my homework and play football.", "arb": "ماذا تفعل في فترة ما بعد الظهر؟ أقوم بواجبي وألعب كرة القدم."},
+                    {"eng": "3. What do you do in the evening? I watch TV and read a book.", "arb": "ماذا تفعل في المساء؟ أشاهد التلفزيون وأقرأ كتاباً."}
+                ]
+            }
+        ]
+    },
+
+    // 6. Page 3 (Exercise 1.4 & 1.5 - Page 7)
+    {
+        "type": "exercise",
+        "unit": "Unit 1.4 & 1.5 (Page 7)",
+        "title": "Make sentences / Write the days",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.4 B: Make sentences about yourself. (Sample Answers)",
+                "question": "اكتب جمل عن نفسك باستخدام الروتين اليومي (إجابات نموذجية).",
+                "answers": [
+                    {"eng": "I get up at seven o'clock.", "arb": "أستيقظ في تمام الساعة السابعة."},
+                    {"eng": "I go to school at eight o'clock.", "arb": "أذهب إلى المدرسة في تمام الساعة الثامنة."},
+                    {"eng": "I go home at two o'clock.", "arb": "أعود إلى المنزل في تمام الساعة الثانية."},
+                    {"eng": "I do my homework in the afternoon.", "arb": "أقوم بواجبي المدرسي في فترة ما بعد الظهر."},
+                    {"eng": "I have dinner with my family in the evening.", "arb": "أتناول العشاء مع عائلتي في المساء."},
+                    {"eng": "I go to bed at ten o'clock.", "arb": "أذهب إلى السرير في تمام الساعة العاشرة."}
+                ]
+            },
+            {
+                "name": "Exercise 1.5 A: Write the days (Complete the names).",
+                "question": "اكتب أيام الأسبوع الناقصة بعد الإشارة الأولى (S, M, T, W, T, F, S):",
+                "isDaysExercise": true,
+                "answers": [
+                    {"eng": "1. It's Saturday", "arb": "السبت"},
+                    {"eng": "2. It's Monday", "arb": "الإثنين"},
+                    {"eng": "3. It's Friday", "arb": "الجمعة"},
+                    {"eng": "4. It's Tuesday", "arb": "الثلاثاء"},
+                    {"eng": "5. It's Wednesday", "arb": "الأربعاء"},
+                    {"eng": "6. It's Thursday", "arb": "الخميس"},
+                    {"eng": "7. It's Sunday", "arb": "الأحد"}
+                ]
+            }
+        ]
+    },
+
+    // 7. Page 4 (Exercise 1.6 B, C, D - Page 8)
+    {
+        "type": "exercise",
+        "unit": "Unit 1.6 (Page 8)",
+        "title": "Categorize Activities / Write Sentences",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.6 B: Put the activities in the correct place in the table (go or play).",
+                "question": "صنّف الأنشطة التالية (shopping, football, swimming, table tennis, volleyball, cycling) في الجدول الصحيح:",
+                "isTableExercise": true,
+                "answers": {
+                    "go": ["shopping", "swimming", "cycling", "to the mosque"],
+                    "play": ["football", "table tennis", "volleyball", "basketball"]
+                }
+            },
+            {
+                "name": "Exercise 1.6 D: Write sentences about the timetable. (Sample Answers)",
+                "question": "اكتب جمل عن الجدول الزمني مستخدماً قاعدة المضارع البسيط (إجابات نموذجية).",
+                "answers": [
+                    {"eng": "1. He plays basketball every Saturday.", "arb": "هو يلعب كرة السلة كل سبت."},
+                    {"eng": "2. He plays table tennis every Sunday and Monday.", "arb": "هو يلعب تنس الطاولة كل أحد وإثنين."},
+                    {"eng": "3. He plays volleyball every Tuesday.", "arb": "هو يلعب الكرة الطائرة كل ثلاثاء."},
+                    {"eng": "4. He plays football every Wednesday.", "arb": "هو يلعب كرة القدم كل أربعاء."},
+                    {"eng": "5. He goes to the mosque every Friday.", "arb": "هو يذهب إلى المسجد كل جمعة."}
+                ]
+            }
+        ]
+    },
+
+    // 8. Page 5 (Exercise 1.6 A, B - Page 9) 
+    {
+        "type": "exercise",
+        "unit": "Unit 1.6 (Page 9)",
+        "title": "Present Tense Verbs / Write about Lucy",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.6 A: Write words to complete the verb tables (Present Tense).",
+                "question": "أكمل جدول تصريف الأفعال في المضارع البسيط:",
+                "isVerbTable": true,
+                "answers": [
+                    {"subject": "I", "be": "am", "go": "go", "play": "play", "like": "like"},
+                    {"subject": "You", "be": "are", "go": "go", "play": "play", "like": "like"},
+                    {"subject": "He, She, It", "be": "is", "go": "goes", "play": "plays", "like": "likes"},
+                    {"subject": "We", "be": "are", "go": "go", "play": "play", "like": "like"},
+                    {"subject": "They", "be": "are", "go": "go", "play": "play", "like": "like"}
+                ]
+            },
+            {
+                "name": "Exercise 1.6 B: Write about Lucy. Complete the sentences.",
+                "question": "أكمل الجمل عن لوسي بناءً على النص المرفق في الكتاب:",
+                "answers": [
+                    {"eng": "1. Lucy plays basketball on Mondays.", "arb": "تلعب لوسي كرة السلة أيام الإثنين."},
+                    {"eng": "2. She likes basketball.", "arb": "هي تحب كرة السلة."},
+                    {"eng": "3. She goes swimming on Thursdays.", "arb": "هي تذهب للسباحة أيام الخميس."},
+                    {"eng": "4. She doesn't like swimming.", "arb": "هي لا تحب السباحة."}
+                ]
+            }
+        ]
+    },
+
+    // 9. Page 6 (Exercise 1.7 & 1.8 - Page 10)
+    {
+        "type": "exercise",
+        "unit": "Unit 1.7 & 1.8 (Page 10)",
+        "title": "Abilities (Can/Can't) / Asking Questions",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.7 A: Write the numbers.",
+                "question": "اكتب رقم الصورة المناسب تحت النشاط الذي تعبر عنه:",
+                "isMatchingExercise": true,
+                "answers": [
+                    {"activity": "sing", "number": 1, "arb": "يغني"},
+                    {"activity": "play tennis", "number": 5, "arb": "يلعب تنس"},
+                    {"activity": "speak Arabic", "number": 7, "arb": "يتحدث العربية"},
+                    {"activity": "ride a bike", "number": 3, "arb": "يركب دراجة"},
+                    {"activity": "make a cake", "number": 4, "arb": "يصنع كعكة"},
+                    {"activity": "swim", "number": 2, "arb": "يسبح"},
+                    {"activity": "drive a car", "number": 8, "arb": "يقود سيارة"},
+                    {"activity": "fly", "number": 6, "arb": "يطير (طائر)"}
+                ]
+            },
+            {
+                "name": "Exercise 1.8 A: Write questions (Can you / When do you).",
+                "question": "استخدم الكلمات المتاحة (make, play, speak, ride / cakes, English, a bike, tennis) لكتابة الأسئلة (الجزء الأول):",
+                "answers": [
+                    {"eng": "1. Can you make cakes?", "arb": "هل يمكنك صنع الكعك؟"},
+                    {"eng": "2. When do you play tennis?", "arb": "متى تلعب التنس؟"},
+                    {"eng": "3. Can you speak English?", "arb": "هل يمكنك التحدث بالإنجليزية؟"},
+                    {"eng": "4. When do you ride a bike?", "arb": "متى تركب الدراجة؟"}
+                ]
+            }
+        ]
+    },
+
+    // 10. Page 7 (NEW) - Exercise 1.8 A (Cont.) & B (Page 11)
+    {
+        "type": "exercise",
+        "unit": "Unit 1.8 (Page 11) - Continued",
+        "title": "Complete Questions / Write about yourself",
+        "bgColor": "bg-indigo-50",
+        "exercises": [
+            {
+                "name": "Exercise 1.8 A: Write questions (Can you / When do you).",
+                "question": "أكمل كتابة الأسئلة المتبقية (إجابات نموذجية لتكملة التمرين):",
+                "answers": [
+                    {"eng": "1. Can you speak English? (Example from book)", "arb": "هل يمكنك التحدث بالإنجليزية؟ (مثال من الكتاب)"},
+                    {"eng": "2. When do you speak English? (Example from book)", "arb": "متى تتحدث الإنجليزية؟ (مثال من الكتاب)"},
+                    {"eng": "3. Can you ride a bike?", "arb": "هل يمكنك ركوب الدراجة؟"},
+                    {"eng": "4. When do you play tennis?", "arb": "متى تلعب التنس؟"},
+                    {"eng": "5. Can you make cakes?", "arb": "هل يمكنك صنع الكعك؟"},
+                    {"eng": "6. When do you play basketball?", "arb": "متى تلعب كرة السلة؟"}
+                ]
+            },
+            {
+                "name": "Exercise 1.8 B: Write about yourself. (Sample Answers)",
+                "question": "اكتب جمل عن نفسك لملء الفراغات مستخدماً (I am... years old, I live in..., I get up at..., I play/go..., I can... but I can't...)",
+                "answers": [
+                    {"eng": "I am 12 years old and live in Benghazi.", "arb": "أنا عمري 12 سنة وأعيش في بنغازي."},
+                    {"eng": "I get up at 7 o'clock every day. I play / go football on Fridays and play / go swimming on Wednesdays.", "arb": "أستيقظ في السابعة كل يوم. ألعب كرة القدم أيام الجمعة وأذهب للسباحة أيام الأربعاء."},
+                    {"eng": "I can play chess but I can't drive a car.", "arb": "أنا أستطيع لعب الشطرنج ولكن لا أستطيع قيادة السيارة."}
+                ]
+            }
+        ]
+    },
+
+
+    // // --- UNIT 2: FAMILY AND JOBS --- (Start Index: 11)
+
+    // // 11. Unit 2 Section Header
+    // { "type": "section", "title": "Unit 2: Family and Jobs", "arabicTitle": "الوحدة الثانية: العائلة والوظائف (حلول كاملة)", "bgColor": "bg-green-100", "icon": "fa-user-tie" },
+    
+    // // 12. Page 8 (Workbook Page 12 - Exercise 2.1)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.1 (Page 12)",
+    //     "title": "Rewrite full words (Contractions)",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.1 B: Write full words",
+    //             "question": "أعد كتابة الكلمات كاملة بدون اختصار (Contractions):",
+    //             "answers": [
+    //                 {"eng": "I've got = I have got", "arb": "لديّ = أنا لدي"},
+    //                 {"eng": "I haven't got = I have not got", "arb": "ليس لديّ = أنا ليس لدي"},
+    //                 {"eng": "he's got = he has got", "arb": "لديه = هو لديه"},
+    //                 {"eng": "he's ten = he is ten", "arb": "عمره عشر سنوات = هو يكون عشر سنوات"},
+    //                 {"eng": "I'm not English = I am not English", "arb": "أنا لست إنجليزيًا = أنا أكون لست إنجليزيًا"},
+    //                 {"eng": "she hasn't got = she has not got", "arb": "ليس لديها = هي ليس لديها"},
+    //                 {"eng": "they've got = they have got", "arb": "لديهم = هم لديهم"},
+    //                 {"eng": "it's hot = it is hot", "arb": "الجو حار = هو يكون حارًا"},
+    //                 {"eng": "we're Libyan = we are Libyan", "arb": "نحن ليبيون = نحن نكون ليبيون"}
+    //             ]
+    //         }
+    //     ]
+    // },
+
+    // // 13. Page 9 (Workbook Page 13 - Exercise 2.2)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.2 (Page 13)",
+    //     "title": "Omar’s family tree (Names)",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.2 A: Write the names on Omar’s family tree",
+    //             "question": "اكتب الأسماء المناسبة في شجرة عائلة عمر:",
+    //             "answers": [
+    //                 {"eng": "Grandmother: Maha", "arb": "الجدة: مها"},
+    //                 {"eng": "Grandfather: Mohammed", "arb": "الجد: محمد"},
+    //                 {"eng": "Father: Ibrahim", "arb": "الأب: إبراهيم"},
+    //                 {"eng": "Mother: Nawal", "arb": "الأم: نوال"},
+    //                 {"eng": "Sister: Hind", "arb": "الأخت: هند"},
+    //                 {"eng": "Brother: Salem", "arb": "الأخ: سالم"}
+    //             ]
+    //         }
+    //     ]
+    // },
+
+    // // 14. Page 10 (Workbook Page 15 - Exercise 2.4)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.4 (Page 15)",
+    //     "title": "Possessive 's' (Whose is it?)",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.4 B: Write sentences using 's",
+    //             "question": "اكتب جمل عن ملكية الأشياء باستخدام علامة التملك ('s):",
+    //             "answers": [
+    //                 {"eng": "1. It's Aisha's pencil.", "arb": "إنه قلم الرصاص الخاص بعائشة."},
+    //                 {"eng": "2. It's Hind's pen.", "arb": "إنه القلم الخاص بهند."},
+    //                 {"eng": "3. It's Salim's rubber.", "arb": "إنها الممحاة الخاصة بسالم."},
+    //                 {"eng": "4. It's Nawal's notebook.", "arb": "إنه الدفتر الخاص بنوال."}
+    //             ]
+    //         }
+    //     ]
+    // },
+
+    // // 15. Page 11 (Workbook Page 16 - Exercise 2.5)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.5 (Page 16)",
+    //     "title": "Match & Possessive Pronouns (mine, yours...)",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.5 A: Match the questions with the correct answers",
+    //             "question": "طابق الأسئلة بالأجوبة الصحيحة:",
+    //             "answers": [
+    //                 {"eng": "1. Whose car is this? -> The red one is mine and the blue one is Ali's.", "arb": "لمن هذه السيارة؟ -> الحمراء لي والزرقاء لعلي."},
+    //                 {"eng": "2. Is this Jack's flat? -> No, he lives in a house.", "arb": "هل هذه شقة جاك؟ -> لا، هو يعيش في منزل."},
+    //                 {"eng": "3. Are these your brothers? -> No, I've got two sisters.", "arb": "هل هؤلاء إخوتك؟ -> لا، لدي أختان."},
+    //                 {"eng": "4. Whose bikes are these? -> It's the teacher's.", "arb": "لمن هذه الدراجات؟ -> إنها للمُعلم."},
+    //                 {"eng": "5. Are these chocolates yours? -> No, they are for my mother.", "arb": "هل هذه الشوكولاتة لك؟ -> لا، إنها لأمي."}
+    //             ]
+    //         },
+    //         {
+    //             "name": "Exercise 2.5 B: Rewrite sentences using one possessive pronoun",
+    //             "question": "أعد كتابة الجمل باستخدام ضمير ملكية واحد (mine, yours, hers, his, theirs):",
+    //             "answers": [
+    //                 {"eng": "1. That's not your juice, it's mine.", "arb": "هذا ليس عصيرك، إنه لي (mine)."},
+    //                 {"eng": "2. The blue bike is his.", "arb": "الدراجة الزرقاء له (his)."},
+    //                 {"eng": "3. This flat is theirs.", "arb": "هذه الشقة لهم (theirs)."},
+    //                 {"eng": "4. Are these pencils yours?", "arb": "هل هذه الأقلام لك (yours)؟"},
+    //                 {"eng": "5. Is this black car his/hers?", "arb": "هل هذه السيارة السوداء له/لها (his/hers)؟"},
+    //                 {"eng": "6. No, the blue one is hers.", "arb": "لا، الزرقاء لها (hers)."}
+    //             ]
+    //         }
+    //     ]
+    // },
+
+    // // 16. Page 12 (Workbook Page 17 - Exercise 2.6)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.6 (Page 17)",
+    //     "title": "Adverbs of Frequency (Mustafa’s routine)",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.6 A: Circle the correct answers (Mustafa)",
+    //             "question": "اختر الإجابة الصحيحة بناءً على النص حول روتين مصطفى:",
+    //             "answers": [
+    //                 {"eng": "1. How often does Mustafa get up at quarter past six? always", "arb": "متى يستيقظ مصطفى في السادسة والربع؟ دائماً (always)"},
+    //                 {"eng": "2. What does he always drink for breakfast? juice", "arb": "ماذا يشرب دائماً على الفطور؟ عصير (juice)"},
+    //                 {"eng": "3. How often does he walk to school? sometimes", "arb": "كم مرة يمشي إلى المدرسة؟ أحياناً (sometimes)"},
+    //                 {"eng": "4. How often does he go swimming? never", "arb": "كم مرة يذهب للسباحة؟ أبداً (never)"}
+    //             ]
+    //         },
+    //         {
+    //             "name": "Exercise 2.6 B: Now write about your day (Sample Answers)",
+    //             "question": "اكتب عن يومك الخاص (إجابات نموذجية):",
+    //             "answers": [
+    //                 {"eng": "I get up at half past six. I always drink milk for breakfast. I sometimes walk to school.", "arb": "في الصباح: أستيقظ في السادسة والنصف. دائماً أشرب الحليب على الفطور. أحياناً أمشي إلى المدرسة."},
+    //                 {"eng": "I play computer games after school on Tuesdays and Thursdays. I watch TV sometimes. I never go swimming.", "arb": "في المساء: ألعب ألعاب الحاسوب بعد المدرسة أيام الثلاثاء والخميس. أشاهد التلفزيون أحياناً. لا أذهب للسباحة أبداً."}
+    //             ]
+    //         }
+    //     ]
+    // },
+
+    // // 17. Page 13 (Workbook Page 18 - Exercise 2.7)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.7 (Page 18)",
+    //     "title": "Health Vocabulary and Conversation",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.7 A: Write the missing vowels and match",
+    //             "question": "اكتب حروف العلة المفقودة:",
+    //             "answers": [
+    //                 {"eng": "1. t_mp_r_t_r -> temperature", "arb": "درجة حرارة (temperature)"},
+    //                 {"eng": "2. h_d_ch_ -> headache", "arb": "صداع (headache)"},
+    //                 {"eng": "3. st_m_ch_ch_ -> stomachache", "arb": "ألم في المعدة (stomachache)"}
+    //             ]
+    //         },
+    //         {
+    //             "name": "Exercise 2.7 B: Complete the conversation",
+    //             "question": "أكمل المحادثة:",
+    //             "answers": [
+    //                 {"eng": "Jack: I feel ill.", "arb": "جاك: أشعر بالمرض."},
+    //                 {"eng": "Friend: Have you got a temperature?", "arb": "صديق: هل لديك حمى؟"},
+    //                 {"eng": "Jack: No, I haven't.", "arb": "جاك: لا، ليس لدي."},
+    //                 {"eng": "Friend: Have you got a headache?", "arb": "صديق: هل لديك صداع؟"},
+    //                 {"eng": "Jack: No.", "arb": "جاك: لا."},
+    //                 {"eng": "Friend: Have you got a stomachache?", "arb": "صديق: هل لديك ألم في المعدة؟"},
+    //                 {"eng": "Jack: Yes.", "arb": "جاك: نعم."}
+    //             ]
+    //         }
+    //     ]
+    // },
+    
+    // // 18. Page 14 (Workbook Page 19 - Exercise 2.8)
+    // {
+    //     "type": "exercise",
+    //     "unit": "Unit 2.8 (Page 19)",
+    //     "title": "Reorder words to make questions",
+    //     "bgColor": "bg-green-50",
+    //     "exercises": [
+    //         {
+    //             "name": "Exercise 2.8 A: Write words in the correct order to make questions",
+    //             "question": "أعد ترتيب الكلمات لتكوين أسئلة صحيحة:",
+    //             "answers": [
+    //                 {"eng": "1. Where do you live?", "arb": "أين تعيش؟"},
+    //                 {"eng": "2. What do you do every day?", "arb": "ماذا تفعل كل يوم؟"},
+    //                 {"eng": "3. What do you do in the evening?", "arb": "ماذا تفعل في المساء؟"}
+    //             ]
+    //         }
+    //     ]
+    // },
+
+
+//     // --- UNIT 3: LIKES AND DISLIKES --- (Start Index: 19)
+
+//     // 19. Unit 3 Section Header 
+//     { "type": "section", "title": "Unit 3: Likes and Dislikes", "arabicTitle": "الوحدة الثالثة: الإعجاب وعدم الإعجاب (أرقام ومقارنات)", "bgColor": "bg-purple-100", "icon": "fa-heart-circle-check" },
+    
+//     // 20. Page 15 (Workbook Page 20 - Exercise 3.1) 
+//     {
+//         "type": "exercise",
+//         "unit": "Unit 3.1 (Page 20)",
+//         "title": "Matching Numbers to Pictures and Words",
+//         "bgColor": "bg-purple-50",
+//         "exercises": [
+//             {
+//                 "name": "Exercise 3.1 A: Match the numbers (13-20) to the pictures (a-h).",
+//                 "question": "طابق الأرقام من 13 إلى 20 بالصور (التي تحتوي على نفس العدد من النقاط):",
+//                 "isMatchingExercise": true,
+//                 "answers": [
+//                     {"activity": "13", "number": "d", "arb": "ثلاثة عشر (d)"},
+//                     {"activity": "14", "number": "g", "arb": "أربعة عشر (g)"},
+//                     {"activity": "15", "number": "e", "arb": "خمسة عشر (e)"},
+//                     {"activity": "16", "number": "a", "arb": "ستة عشر (a)"},
+//                     {"activity": "17", "number": "c", "arb": "سبعة عشر (c)"},
+//                     {"activity": "18", "number": "h", "arb": "ثمانية عشر (h)"},
+//                     {"activity": "19", "number": "b", "arb": "تسعة عشر (b)"},
+//                     {"activity": "20", "number": "f", "arb": "عشرون (f)"}
+//                 ]
+//             },
+//             {
+//                 "name": "Exercise 3.1 B: Match the numbers (10-100) to the words.",
+//                 "question": "طابق الأرقام بالكلمات المقابلة لها:",
+//                 "isMatchList": true,
+//                 "answers": [
+//                     {"number": "10", "word": "ten"},
+//                     {"number": "20", "word": "twenty"},
+//                     {"number": "30", "word": "thirty"},
+//                     {"number": "40", "word": "forty"},
+//                     {"number": "50", "word": "fifty"},
+//                     {"number": "60", "word": "sixty"},
+//                     {"number": "70", "word": "seventy"},
+//                     {"number": "80", "word": "eighty"},
+//                     {"number": "90", "word": "ninety"},
+//                     {"number": "100", "word": "one hundred"}
+//                 ]
+//             }
+//         ]
+//     },
+    
+//     // 21. Page 16 (Workbook Page 21 - Exercise 3.2)
+//     {
+//         "type": "exercise",
+//         "unit": "Unit 3.2 (Page 21)",
+//         "title": "How much? Answer the questions.",
+//         "bgColor": "bg-purple-50",
+//         "exercises": [
+//             {
+//                 "name": "Exercise 3.2 A: How much? (Answer the questions).",
+//                 "question": "كم سعر؟ (أجب عن الأسئلة بناءً على الصورة):",
+//                 "answers": [
+//                     {"eng": "1. How much is the bag? It is 80 LD.", "arb": "كم سعر الحقيبة؟ إنها 80 دينار ليبي."},
+//                     {"eng": "2. How much are the books? They are 80 LD.", "arb": "كم سعر الكتب؟ إنها 80 دينار ليبي."},
+//                     {"eng": "3. How much is the bike? It is 80 LD.", "arb": "كم سعر الدراجة؟ إنها 80 دينار ليبي."},
+//                     {"eng": "4. How much is the watch? It is 48 LD.", "arb": "كم سعر الساعة؟ إنها 48 دينار ليبي."},
+//                     {"eng": "5. How much are the trousers? They are 22 LD.", "arb": "كم سعر البنطلون (السروال)؟ إنه 22 دينار ليبي."},
+//                     {"eng": "6. How much is the camera? It is 33 LD.", "arb": "كم سعر الكاميرا؟ إنها 33 دينار ليبي."}
+//                 ]
+//             }
+//         ]
+//     },
+
+
+//     // 22. End Page 
+//     { "type": "end", "title": "Great Work!", "subtitle": "لقد راجعت الحلول. حظاً موفقاً!", "icon": "fa-graduation-cap", "bgColor": "bg-yellow-100" }
+];
+
+let currentPageIndex = 0;
+
+// ==============================
+// 2. دالة العرض (المنطق الرئيسي)
+// ==============================
+function renderPage() {
+    const contentDiv = document.getElementById('book-content');
+    const card = document.getElementById('book-card');
+    const controlsDiv = document.getElementById('controls');
+    const page = pages[currentPageIndex];
+
+    // تحديث أرقام الصفحات وأزرار التحكم
+    document.getElementById('page-num').innerText = currentPageIndex + 1;
+    document.getElementById('total-pages').innerText = pages.length; 
+    document.getElementById('btn-prev').disabled = currentPageIndex === 0;
+    document.getElementById('btn-next').disabled = currentPageIndex === pages.length - 1;
+
+    const isControlVisible = page.type !== 'end';
+    controlsDiv.style.display = isControlVisible ? 'flex' : 'none';
+    
+    // تحديث لون خلفية البطاقة
+    card.className = card.className.replace(/bg-\w+-\d+/g, ''); 
+    card.classList.add('max-w-3xl', 'w-full', 'bg-white', 'rounded-3xl', 'shadow-2xl', 'overflow-hidden', 'border-8', 'border-yellow-400', 'flex', 'flex-col', 'transition-all', 'duration-500', 'relative', page.bgColor);
+
+    let html = `<div class="pop-in w-full flex flex-col items-center">`;
+
+    // --- 0. قالب الغلاف ---
+    if (page.type === "cover") {
+        html += `
+            <div class="mb-8 mt-4 animate-bounce">
+                <!-- تم استبدال fa-key بـ fa-graduation-cap ليتناسب مع الغلاف الذي أرسلته (صورة المفتاح) -->
+                <i class="fas fa-graduation-cap text-9xl text-blue-700 drop-shadow-lg"></i>
+            </div>
+            <h1 class="text-6xl md:text-7xl font-extrabold text-gray-800 mb-2 eng-text tracking-wider">${page.title}</h1>
+            <p class="text-3xl font-light text-gray-600 mb-12 eng-text">${page.subtitle}</p>
+            
+            <div class="w-full bg-white/60 rounded-xl p-6 border-t-4 border-blue-500 backdrop-blur-sm shadow-inner">
+                <div class="grid grid-cols-1 gap-5 divide-y divide-gray-200">
+                    <div class="pb-3">
+                        <p class="text-lg font-bold text-gray-700">${page.supervisor}</p>
+                        <p class="text-sm text-gray-500 flex items-center justify-center gap-2 mt-1" dir="ltr">
+                            <span class="font-mono">${page.supervisorPhone}</span> <i class="fas fa-phone text-gray-400"></i> 
+                        </p>
+                    </div>
+                    <div class="pt-3">
+                        <p class="text-sm text-gray-500 mb-1">تصميم وتجميع الحلول:</p> 
+                        <p class="text-xl font-extrabold text-blue-800">${page.authorName}</p>
+                        <p class="text-sm text-gray-500 flex items-center justify-center gap-2 mt-1" dir="ltr">
+                             <span class="font-mono">${page.whatsapp}</span> <i class="fab fa-whatsapp text-green-500"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // --- 1. قالب المقدمة ---
+    else if (page.type === "introduction") {
+        html += `
+            <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-lg mb-6">
+                <i class="fas fa-search text-6xl text-teal-600"></i>
+            </div>
+            <h2 class="text-5xl font-bold text-teal-700 mb-4">${page.arabicTitle}</h2>
+            <p class="text-xl text-gray-600 max-w-lg">
+                هذا الدليل يقدّم لك الحلول الصحيحة والنموذجية لتمارين كتاب الواجب  للصف السابع. يمكنك التحقق من إجاباتك والاستماع إلى نطق الجمل والكلمات باللغة الإنجليزية.
+            </p>
+        `;
+    }
+
+    // --- 2. قالب الفهرس ---
+    else if (page.type === "index") {
+        // تم تحديث الأرقام لتتطابق مع الـ pages array المحدث
+        const sections = [
+            { title: "Unit 1: Hobbies and Routines - الحلول (مكتملة)", icon: "fa-clock", bgColor: "bg-indigo-200", pageIndex: 3 },
+            { title: "Unit 2: Family and Jobs - الحلول (مكتملة)", icon: "fa-user-tie", bgColor: "bg-green-200", pageIndex: 11 },
+            { title: "Unit 3: Likes and Dislikes - الأرقام والمقارنات", icon: "fa-heart-circle-check", bgColor: "bg-purple-200", pageIndex: 19 }
+        ];
+
+        let indexList = sections.map(section => `
+            <li onclick="goToPage(${section.pageIndex})" class="p-4 ${section.bgColor} rounded-xl flex items-center gap-4 shadow-md hover:shadow-lg transition cursor-pointer transform hover:scale-[1.02]">
+                <i class="fas ${section.icon} text-2xl text-gray-800 w-8 text-center"></i>
+                <span class="text-xl font-semibold eng-text text-gray-900">${section.title}</span>
+                <i class="fas fa-arrow-left mr-auto text-gray-500"></i>
+            </li>
+        `).join('');
+
+        html += `
+            <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-lg mb-6">
+                <i class="fas fa-list-alt text-6xl text-pink-600"></i>
+            </div>
+            <h2 class="text-5xl font-bold text-pink-700 mb-8">${page.arabicTitle}</h2>
+            <ul class="space-y-4 w-full max-w-xl text-right">
+                ${indexList}
+            </ul>
+        `;
+    }
+
+    // --- 3. قالب الفاصل (عنوان القسم/الوحدة) ---
+    else if (page.type === "section") {
+        html += `
+            <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-xl mb-8">
+                <i class="fas ${page.icon} text-6xl text-gray-700"></i>
+            </div>
+            <h2 class="text-5xl font-bold text-gray-800 mb-4 eng-text">${page.title}</h2>
+            <p class="text-2xl text-gray-600 font-bold">${page.arabicTitle}</p>
+        `;
+    }
+
+    // --- 4. قالب الحلول (Exercise Page) ---
+    else if (page.type === "exercise") {
+        
+        let exercisesHtml = page.exercises.map(ex => {
+            let answersHtml;
+
+            if (ex.isDaysExercise) {
+                // تنسيق خاص لأيام الأسبوع (Exercise 1.5 A)
+                answersHtml = `<div class="days-grid text-center">` + ex.answers.map(ans => {
+                    const escapedEng = ans.eng.replace(/'/g, "\\'");
+                    return `
+                        <div class="bg-blue-50 p-3 rounded-lg shadow-sm border-2 border-blue-200">
+                            <p class="text-sm text-gray-500 mb-1">${ans.arb}</p>
+                            <div class="flex flex-col items-center gap-1" dir="ltr">
+                                <p class="text-lg eng-text font-bold text-gray-900">${ans.eng.split(' ').pop()}</p>
+                                <i onclick="speak('${escapedEng}')" class="fas fa-volume-up text-blue-500 text-base speak-btn"></i>
+                            </div>
+                        </div>
+                    `;
+                }).join('') + `</div>`;
+            } else if (ex.isTableExercise) {
+                // تنسيق خاص لجدول تصنيف الأفعال (Exercise 1.6 B - Page 8)
+                const goItems = ex.answers.go.map(item => `<td class="eng-text text-lg">${item}</td>`).join('');
+                const playItems = ex.answers.play.map(item => `<td class="eng-text text-lg">${item}</td>`).join('');
+
+                answersHtml = `
+                    <div class="overflow-x-auto">
+                        <table class="table-solution w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-inner">
+                            <thead dir="ltr">
+                                <tr><th>go</th><th>play</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>${goItems.split('</td><td').map((item, index) => index === 0 ? item : '<td' + item).join('</td></tr><tr>')}</tr>
+                            </tbody>
+                        </table>
+                        <p class="text-sm text-gray-500 mt-4">ملاحظة: (basketball و to the mosque) مأخوذة من التمرين C/D وهي إضافات صحيحة.</p>
+                    </div>
+                `;
+
+            } else if (ex.isVerbTable) {
+                // تنسيق خاص لجدول تصريف الأفعال (Exercise 1.6 A - Page 9)
+                const header = ["Subject", "be", "go", "play", "like"];
+                const headerHtml = header.map(h => `<th class="eng-text">${h}</th>`).join('');
+
+                const rowsHtml = ex.answers.map(row => `
+                    <tr dir="ltr">
+                        <td class="font-bold">${row.subject}</td>
+                        <td>${row.be}</td>
+                        <td>${row.go}</td>
+                        <td>${row.play}</td>
+                        <td>${row.like}</td>
+                    </tr>
+                `).join('');
+
+                answersHtml = `
+                    <div class="overflow-x-auto">
+                        <table class="verb-table w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-xl">
+                            <thead><tr>${headerHtml}</tr></thead>
+                            <tbody>${rowsHtml}</tbody>
+                        </table>
+                        <p class="text-sm text-gray-500 mt-4">هذا الجدول يوضح استخدام المضارع البسيط (Present Tense).</p>
+                    </div>
+                `;
+            } else if (ex.isMatchingExercise) {
+                // تنسيق خاص لتمرين المطابقة (1.7 A - Page 10) وتمرين (3.1 A)
+                answersHtml = `<div class="days-grid text-center">` + ex.answers.map(ans => {
+                    // Fix: تحويل ans.number إلى سلسلة نصية قبل استخدامه في القالب لتجنب الخطأ
+                    const numberValue = ans.number;
+                    const numberString = String(numberValue); // *** هذا هو التعديل الأساسي للحل ***
+                    const numberDisplay = numberString;
+
+                    const numberColor = page.unit.startsWith('Unit 3') ? 'text-purple-600' : 'text-teal-600';
+                    
+                    const escapedEng = ans.activity.replace(/'/g, "\\'");
+                    return `
+                        <div class="bg-teal-50 p-3 rounded-lg shadow-sm border-2 border-teal-200">
+                            <p class="text-sm text-gray-500 mb-1">${ans.arb}</p>
+                            <div class="flex flex-col items-center gap-1" dir="ltr">
+                                <p class="text-lg eng-text font-bold text-gray-900">${ans.activity}</p>
+                                <p class="text-3xl font-extrabold ${numberColor} mt-1">${numberDisplay}</p>
+                                <i onclick="speak('${escapedEng}')" class="fas fa-volume-up text-teal-500 text-base speak-btn"></i>
+                            </div>
+                        </div>
+                    `;
+                }).join('') + `</div>`;
+
+            } else if (ex.isMatchList) {
+                 // تنسيق خاص لتمرين مطابقة الكلمات بالأرقام (3.1 B)
+                answersHtml = `
+                    <ul class="match-list w-full max-w-xs mx-auto rounded-xl overflow-hidden border border-gray-200 shadow-md text-gray-800">
+                        ${ex.answers.map(ans => {
+                            const escapedEng = ans.word.replace(/'/g, "\\'");
+                            return `
+                                <li dir="ltr">
+                                    <span class="text-xl font-extrabold text-purple-700">${ans.number}</span>
+                                    <span class="text-lg font-medium eng-text">${ans.word}</span>
+                                    <i onclick="speak('${escapedEng}')" class="fas fa-volume-up text-purple-500 text-base speak-btn"></i>
+                                </li>
+                            `;
+                        }).join('')}
+                    </ul>
+                    <p class="text-sm text-gray-500 mt-4">الحل هو التوصيل بين الرقم وكلمته الإنجليزية الصحيحة.</p>
+                `;
+            } else {
+                // التنسيق العادي للإجابات
+                answersHtml = ex.answers.map(ans => {
+                    // هروب علامات التنصيص الفردية (')
+                    const escapedEng = ans.eng.replace(/'/g, "\\'");
+                    return `
+                        <div class="answer-box">
+                            <!-- السؤال بالعربي -->
+                            <p class="text-sm text-gray-500 mb-1">${ans.arb}</p>
+                            <!-- الإجابة بالإنجليزية مع زر النطق -->
+                            <div class="flex items-center justify-end gap-3" dir="ltr">
+                                <i onclick="speak('${escapedEng}')" class="fas fa-volume-up text-blue-500 text-xl speak-btn"></i>
+                                <p class="text-xl eng-text font-medium text-gray-900">${ans.eng}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+
+            return `
+                <div class="mb-8 p-4 bg-white rounded-xl shadow-lg border-t-8 border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 border-b pb-2">${ex.name}</h3>
+                    <p class="text-lg text-gray-600 mb-4">${ex.question}</p>
+                    <div class="space-y-3">
+                        ${answersHtml}
+                    </div>
+                </div>
+            `;
+        }).join('<div class="h-6 border-b-4 border-dashed border-gray-300 w-full max-w-xl"></div>');
+
+        html += `
+            <h2 class="text-4xl font-extrabold text-indigo-700 mb-6 border-b-2 border-indigo-300 pb-2">${page.unit} - الحلول</h2>
+            <div class="w-full max-w-xl space-y-6">
+                ${exercisesHtml}
+            </div>
+        `;
+    }
+
+
+    // --- 5. صفحة النهاية ---
+    else if (page.type === "end") {
+        html += `
+            <i class="fas ${page.icon} text-8xl text-green-500 mb-6 animate-bounce"></i>
+            <h1 class="text-5xl font-bold text-green-600 mb-4 eng-text">${page.title}</h1>
+            <p class="text-xl text-gray-600 mb-8">${page.subtitle}</p>
+            <button onclick="restartBook()" class="bg-green-500 text-white px-8 py-3 rounded-full text-lg font-bold shadow hover:bg-green-600 transition transform hover:scale-105">
+                ابدأ المراجعة مجدداً ↻
+            </button>
+        `;
+    }
+
+
+    html += `</div>`;
+    contentDiv.innerHTML = html;
+    contentDiv.scrollTop = 0; // للرجوع لأعلى الصفحة عند الانتقال
+}
+
+// ==============================
+// 3. دوال التحكم
+// ==============================
+
+function nextPage() { 
+    if (currentPageIndex < pages.length - 1) { 
+        currentPageIndex++; 
+        renderPage(); 
+    } 
+}
+
+function prevPage() { 
+    if (currentPageIndex > 0) { 
+        currentPageIndex--; 
+        renderPage(); 
+    } 
+}
+
+// دالة جديدة للانتقال إلى صفحة محددة
+function goToPage(index) {
+    if (index >= 0 && index < pages.length) {
+        currentPageIndex = index;
+        renderPage();
+    }
+}
+
+function restartBook() { 
+    currentPageIndex = 0;
+    renderPage(); 
+}
+
+// دالة النطق الإنجليزي
+function speak(text) {
+    if(!text) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    // ضبط اللغة لتكون الإنجليزية
+    u.lang = "en-US";
+    u.rate = 0.9; // سرعة نطق مناسبة
+    window.speechSynthesis.speak(u);
+}
+
+window.onload = function() {
+    // تم تغيير الفهرس ليبدأ من صفحة الغلاف (الفهرس 0)
+    currentPageIndex = 0; 
+    renderPage();
+};
+
+</script>
+</body>
+</html>
